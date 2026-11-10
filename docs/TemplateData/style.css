@@ -25,7 +25,10 @@ body {
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
-  background: #231F20;
+  /* Installed on a phone, the page runs edge to edge: keep the game out of the status bar, notch and home bar. */
+  box-sizing: border-box;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  background: #0b0d0f;
 }
 
 /* Wider than a tall tablet: keep the game in a 9:19.5 portrait column, like a phone screen. */

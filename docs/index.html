@@ -72,9 +72,9 @@
       var buildUrl = "Build";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/5ccdc2ca3ddd8ad87ffc778e08e3cc9e.data.unityweb",
+        dataUrl: buildUrl + "/607d47f4759e36df503efc68fcd8e6b8.data.unityweb",
         frameworkUrl: buildUrl + "/d859cc62ac362445ec95e3c141ebbae2.framework.js.unityweb",
-        codeUrl: buildUrl + "/1f6652a3331cb8f5173ca4e5066d1130.wasm.unityweb",
+        codeUrl: buildUrl + "/f43cba36a4ac525420b2e39097a2ed33.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Noah Maes",
         productName: "One More Rep",
@@ -82,6 +82,8 @@
         showBanner: showMessage,
         // Phones report 3x or more; rendering at 2x at most keeps the game smooth and still sharp.
         devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+        // The save (PlayerPrefs) is written to the browser's IndexedDB as soon as it changes.
+        autoSyncPersistentDataPath: true,
       };
 
       if (!hasWebGL2()) {
@@ -89,7 +91,7 @@
       } else {
         serviceWorkerReady().then(function () {
           var script = document.createElement("script");
-          script.src = buildUrl + "/c67c2dfabef7a95e6d118928fc8a0abb.loader.js";
+          script.src = buildUrl + "/73bd0c119af5164e9b72028a130966ae.loader.js";
           script.onload = function () {
             createUnityInstance(canvas, config, function (progress) {
               progressFull.style.width = Math.round(100 * progress) + "%";

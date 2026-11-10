@@ -4,7 +4,7 @@
 // - The game files in Build/ are cached the first time they load and are served from the cache after that. Their names
 //   are content hashes, so a new version always has new names and an old copy is never served for it.
 // - The cache name contains every game file's hash, so each new build installs a new worker that deletes the old cache.
-const CACHE_NAME = "one-more-rep-0.1.0-1f6652a3331cb8f5173ca4e5066d1130.wasm.unityweb-5ccdc2ca3ddd8ad87ffc778e08e3cc9e.data.unityweb-d859cc62ac362445ec95e3c141ebbae2.framework.js.unityweb";
+const CACHE_NAME = "one-more-rep-0.1.0-f43cba36a4ac525420b2e39097a2ed33.wasm.unityweb-607d47f4759e36df503efc68fcd8e6b8.data.unityweb-d859cc62ac362445ec95e3c141ebbae2.framework.js.unityweb";
 const APP_SHELL = [
   "./",
   "index.html",
