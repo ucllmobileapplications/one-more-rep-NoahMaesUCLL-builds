@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <title>One More Rep</title>
+    <meta name="description" content="Tap to lift. Every rep in a set gets heavier. Every 10th rep is a Boss Rep. A one-thumb incremental gym game.">
+    <meta name="theme-color" content="#0b0d0f">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="One More Rep">
+    <link rel="icon" type="image/png" sizes="32x32" href="TemplateData/icons/favicon-32.png">
+    <link rel="apple-touch-icon" href="TemplateData/icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+    <div id="omr-stage">
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+      <div id="omr-loading">
+        <div class="omr-bars"><i></i><i></i><i></i><i></i></div>
+        <div class="omr-kicker">A TAP-TO-LIFT GYM GAME</div>
+        <div class="omr-title">ONE MORE<span>REP</span></div>
+        <div class="omr-progress"><div id="omr-progress-full"></div></div>
+        <div id="omr-status">Loading the gym...</div>
+      </div>
+      <div id="omr-message"></div>
+    </div>
+    <script>
+      // One More Rep, web (PWA) version of the Unity game. The service worker makes it installable and playable offline.
+      var canvas = document.querySelector("#unity-canvas");
+      var loading = document.querySelector("#omr-loading");
+      var progressFull = document.querySelector("#omr-progress-full");
+      var statusText = document.querySelector("#omr-status");
+      var messageBox = document.querySelector("#omr-message");
+
+      // Unity calls this for warnings and errors; errors stay on screen, warnings fade after five seconds.
+      function showMessage(text, type) {
+        var div = document.createElement("div");
+        div.className = type === "error" ? "omr-error" : "omr-warning";
+        div.textContent = text;
+        messageBox.appendChild(div);
+        messageBox.style.display = "block";
+        if (type !== "error") {
+          setTimeout(function () {
+            if (div.parentNode) messageBox.removeChild(div);
+            if (!messageBox.children.length) messageBox.style.display = "none";
+          }, 5000);
+        }
+      }
+
+      // Register the service worker first and wait (briefly) until it controls this page, so the game files of the very
+      // first visit already pass through it and are cached for offline play. Never blocks for more than four seconds.
+      function serviceWorkerReady() {
+        if (!("serviceWorker" in navigator) || !window.isSecureContext) return Promise.resolve();
+        return navigator.serviceWorker.register("ServiceWorker.js").then(function () {
+          if (navigator.serviceWorker.controller) return;
+          return new Promise(function (resolve) {
+            navigator.serviceWorker.addEventListener("controllerchange", resolve);
+            setTimeout(resolve, 4000);
+          });
+        }).catch(function (e) {
+          console.warn("Service worker not registered:", e);
+        });
+      }
+
+      function hasWebGL2() {
+        try { return !!document.createElement("canvas").getContext("webgl2"); } catch (e) { return false; }
+      }
+
+      var buildUrl = "Build";
+      var config = {
+        arguments: [],
+        dataUrl: buildUrl + "/5ccdc2ca3ddd8ad87ffc778e08e3cc9e.data.unityweb",
+        frameworkUrl: buildUrl + "/d859cc62ac362445ec95e3c141ebbae2.framework.js.unityweb",
+        codeUrl: buildUrl + "/1f6652a3331cb8f5173ca4e5066d1130.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Noah Maes",
+        productName: "One More Rep",
+        productVersion: "0.1.0",
+        showBanner: showMessage,
+        // Phones report 3x or more; rendering at 2x at most keeps the game smooth and still sharp.
+        devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+      };
+
+      if (!hasWebGL2()) {
+        statusText.textContent = "This browser cannot run the game (WebGL 2 is missing). Try a recent Chrome, Edge, Firefox or Safari.";
+      } else {
+        serviceWorkerReady().then(function () {
+          var script = document.createElement("script");
+          script.src = buildUrl + "/c67c2dfabef7a95e6d118928fc8a0abb.loader.js";
+          script.onload = function () {
+            createUnityInstance(canvas, config, function (progress) {
+              progressFull.style.width = Math.round(100 * progress) + "%";
+              if (progress >= 0.9) statusText.textContent = "Warming up...";
+            }).then(function () {
+              loading.style.display = "none";
+              canvas.focus();
+            }).catch(function (message) {
+              statusText.textContent = "The game could not start.";
+              showMessage(String(message), "error");
+            });
+          };
+          script.onerror = function () {
+            statusText.textContent = "The game files could not be loaded. Check your connection and reload.";
+          };
+          document.body.appendChild(script);
+        });
+      }
+    </script>
+  </body>
+</html>

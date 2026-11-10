@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "One More Rep",
+  "short_name": "One More Rep",
+  "description": "Tap to lift. Every rep in a set gets heavier. Every 10th rep is a Boss Rep. A one-thumb incremental gym game.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "background_color": "#14161a",
+  "theme_color": "#0b0d0f",
+  "categories": ["games", "sports", "health"],
+  "icons": [
+    { "src": "TemplateData/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "TemplateData/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "TemplateData/icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "TemplateData/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    { "src": "TemplateData/screenshots/start.jpg", "sizes": "540x1170", "type": "image/jpeg", "form_factor": "narrow", "label": "Start screen" },
+    { "src": "TemplateData/screenshots/bench.jpg", "sizes": "540x1170", "type": "image/jpeg", "form_factor": "narrow", "label": "Tap to lift on the bench press" },
+    { "src": "TemplateData/screenshots/boss.jpg", "sizes": "540x1170", "type": "image/jpeg", "form_factor": "narrow", "label": "A Boss Rep" }
+  ]
+}

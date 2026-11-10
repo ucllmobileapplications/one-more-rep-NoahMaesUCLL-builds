@@ -1,2 +1,8 @@
-*.apk binary
 * text=auto
+*.apk binary
+*.unityweb binary
+*.wasm binary
+*.data binary
+*.png binary
+*.jpg binary
+*.ico binary
