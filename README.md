@@ -24,11 +24,11 @@ The leaderboard lives in **Supabase** (hosted PostgreSQL, region Central EU / Fr
 
 - **Check that it is up:** [this link](https://rmfcopbmyphpfkykgztk.supabase.co/rest/v1/rpc/top_lifters?p_limit=10&apikey=sb_publishable_lSqaRwLZQnIbusElcOe9kw_qqAXxiHj) returns the current top 10 as JSON, straight from the database.
 - The game only uses Supabase's public (publishable) key, which can call three database functions (send a best, read the top 10, read your rank) and nothing else; the table itself is locked by Row Level Security.
-- Free Supabase projects pause after a week without activity, so the workflow [`keep-database-awake.yml`](.github/workflows/keep-database-awake.yml) reads the leaderboard every six hours.
+- Free Supabase projects pause after a week without database activity, so a scheduled job inside the project calls the leaderboard every six hours; every game session counts as activity too.
 
 ## Android app (APK)
 
-**[OneMoreRep.apk](https://github.com/ucllmobileapplications/one-more-rep-NoahMaesUCLL-builds/raw/main/OneMoreRep.apk)** (version 0.1.0, built 9 Nov 2026, 57.7 MB)
+**[OneMoreRep.apk](https://github.com/ucllmobileapplications/one-more-rep-NoahMaesUCLL-builds/raw/main/OneMoreRep.apk)** (version 0.2.0 with the world leaderboard, built 10 Nov 2026, 58.9 MB)
 
 1. Open the link on an Android phone (Android 7.1 or newer) and download the file.
 2. Open the downloaded `OneMoreRep.apk`. If Android asks, allow your browser or file manager to install unknown apps.
